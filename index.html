@@ -108,7 +108,7 @@
     // Load any previously saved configuration, if available
     connectionCheckbox.checked = JSON.parse(localStorage['connection']);
     showticksCheckbox.checked = JSON.parse(localStorage['show_ticks']);
-    decorationSelect.value = JSON.parse(localStorage['decoration']);
+    decorationSelect.value = localStorage['decoration'];
   })();
   </script>
 </html>
