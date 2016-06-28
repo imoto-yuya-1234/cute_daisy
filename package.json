@@ -1,0 +1,56 @@
+{
+    "author": "Yuya Imoto",
+    "dependencies": {},
+    "keywords": [],
+    "name": "cute-daisy",
+    "pebble": {
+        "capabilities": [
+            "configurable"
+        ],
+        "displayName": "Cute Daisy",
+        "enableMultiJS": true,
+        "messageKeys": {
+            "KEY_CONNECTION": 1,
+            "KEY_DECORATION": 3,
+            "KEY_INIT": 0,
+            "KEY_LANG": 4,
+            "KEY_SHOW_TICKS": 2
+        },
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "images/image_main",
+                    "menuIcon": true,
+                    "name": "IMAGE_MAIN",
+                    "targetPlatforms": [
+                        "aplite",
+                        "basalt",
+                        "chalk"
+                    ],
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/image_daisy",
+                    "name": "IMAGE_DAISY",
+                    "targetPlatforms": [
+                        "aplite",
+                        "basalt",
+                        "chalk"
+                    ],
+                    "type": "bitmap"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "basalt",
+            "chalk"
+        ],
+        "uuid": "a000957b-484b-424c-9940-a721942b9259",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "1.0.0"
+}
