@@ -18,17 +18,26 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
 	// hour/minute/second hand
 	time_t now = time(NULL);
   struct tm *t = localtime(&now);
+	int16_t hour = t->tm_hour;
+	int16_t min = t->tm_min;
 	
+	#if defined(PBL_PLATFORM_APLITE)
+	#else
+	if (battery_state_service_peek().is_plugged && persist_read_bool(KEY_ROTATE)) {
+		hour += 3;
+		min += 15;
+	}
+	#endif
 	// minute/hour hand
   graphics_context_set_fill_color(ctx, g_connection_color);
   graphics_context_set_stroke_color(ctx, GColorBlack);
   graphics_context_set_stroke_width(ctx, 1);
 
-  gpath_rotate_to(s_minute_arrow, TRIG_MAX_ANGLE * t->tm_min / 60);
+  gpath_rotate_to(s_minute_arrow, TRIG_MAX_ANGLE * min / 60);
   gpath_draw_filled(ctx, s_minute_arrow);
   gpath_draw_outline(ctx, s_minute_arrow);
 
-  gpath_rotate_to(s_hour_arrow, (TRIG_MAX_ANGLE * (((t->tm_hour % 12) * 6) + (t->tm_min / 10))) / (12 * 6));
+  gpath_rotate_to(s_hour_arrow, (TRIG_MAX_ANGLE * (((hour % 12) * 6) + (min / 10))) / (12 * 6));
   gpath_draw_filled(ctx, s_hour_arrow);
   gpath_draw_outline(ctx, s_hour_arrow);
 		
@@ -40,10 +49,18 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
 static void second_update_proc(Layer *layer, GContext *ctx) {
 	time_t now = time(NULL);
   struct tm *t = localtime(&now);
-		
+	int16_t sec = t->tm_sec;
+	
+	#if defined(PBL_PLATFORM_APLITE)
+	#else
+	if (battery_state_service_peek().is_plugged && persist_read_bool(KEY_ROTATE)) {
+		sec += 15;
+	}
+	#endif
+	
 	// second hand
   const int16_t second_hand_length = PBL_IF_ROUND_ELSE(g_bounds.size.w / 2 - 10, g_bounds.size.w / 2 - 10);
-  int32_t second_angle = TRIG_MAX_ANGLE * t->tm_sec / 60;
+  int32_t second_angle = TRIG_MAX_ANGLE * sec / 60;
   GPoint second_hand_start = {
     .x = (int16_t)(sin_lookup(second_angle) * (int32_t)(second_hand_length - 3) / TRIG_MAX_RATIO) + s_time_center.x,
     .y = (int16_t)(-cos_lookup(second_angle) * (int32_t)(second_hand_length - 3) / TRIG_MAX_RATIO) + s_time_center.y,
@@ -94,7 +111,7 @@ void init_time() {
 		s_second_decorate_shape = gpath_create(&STAR_POINTS);
 	}
 
-	s_time_center = PBL_IF_ROUND_ELSE(GPoint(g_center.x, g_center.y), GPoint(g_center.x, g_center.y + 3));
+	s_time_center = PBL_IF_ROUND_ELSE(GPoint(g_center.x, g_center.y), GPoint(g_center.x, g_center.y));
   gpath_move_to(s_minute_arrow, s_time_center);
   gpath_move_to(s_hour_arrow, s_time_center);
 	

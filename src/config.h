@@ -7,6 +7,7 @@
 #define KEY_SHOW_TICKS    2
 #define KEY_DECORATION    3
 #define KEY_LANG					4
+#define KEY_ROTATE				5
 
 extern GColor g_connection_color;
 
@@ -36,6 +37,17 @@ static void in_recv_handler(DictionaryIterator *iter, void *context) {
 	//Tuple *lang_t = dict_find(iter, KEY_LANG);
 	//persist_write_string(KEY_LANG, lang_t->value->cstring);
 	
+	#if defined(PBL_PLATFORM_APLITE)
+	#else
+	Tuple *rotate_t = dict_find(iter, KEY_ROTATE);
+	if(rotate_t && rotate_t->value->int8 > 0) {
+		persist_write_bool(KEY_ROTATE, true);
+	} 
+	else {
+		persist_write_bool(KEY_ROTATE, false);
+	}
+	#endif
+	
 	reload_window();
 }
 
@@ -45,7 +57,11 @@ void initialize_value() {
 		persist_write_bool(KEY_CONNECTION, true);
 		persist_write_bool(KEY_SHOW_TICKS, false);
 		persist_write_string(KEY_DECORATION, "heart");
-		persist_write_string(KEY_LANG, "en");
+		//persist_write_string(KEY_LANG, "en");
+		#if defined(PBL_PLATFORM_APLITE)
+		#else
+		persist_write_bool(KEY_ROTATE, true);
+		#endif
 	}
 	g_connection_color = GColorWhite;
 }

@@ -14,6 +14,7 @@
             "KEY_DECORATION": 3,
             "KEY_INIT": 0,
             "KEY_LANG": 4,
+            "KEY_ROTATE": 5,
             "KEY_SHOW_TICKS": 2
         },
         "projectType": "native",
@@ -44,6 +45,7 @@
         },
         "sdkVersion": "3",
         "targetPlatforms": [
+            "aplite",
             "basalt",
             "chalk"
         ],

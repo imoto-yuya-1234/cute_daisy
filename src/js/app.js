@@ -8,14 +8,13 @@ Pebble.addEventListener("showConfiguration",
   function(e) {
     //Load the remote config page
 		var info = Pebble.getActiveWatchInfo();
-		console.log('Pebble model: ' + info.platform);
-		
+		console.log("Pebble model: " + info.platform);
 		var url;
-		if (info.platform == "chalk") {
-			url = "https://imoto-yuya-1234.github.io/cute_daisy/index_chalk.html";
+		if (info.platform == "aplite") {
+			url = "https://imoto-yuya-1234.github.io/cute_daisy/index.html";
 		}
 		else {
-			url = "https://imoto-yuya-1234.github.io/cute_daisy/index_chalk.html";
+			url = "https://imoto-yuya-1234.github.io/cute_daisy/index_rot.html";
 		}
     Pebble.openURL(url);
 		console.log("Showing configuration page: " + url);
@@ -40,8 +39,14 @@ Pebble.addEventListener("webviewclosed",
 		//dict['KEY_DECORATION'] = configData.decoration;
 		dict['KEY_DECORATION'] = configData['decoration'];
   	
-		var lang = configData['lang'];
-		dict['KEY_LANG'] = configData['lang'];
+		//var lang = configData['lang'];
+		//dict['KEY_LANG'] = configData['lang'];
+		
+		var info = Pebble.getActiveWatchInfo();
+		if (info.platform != "aplite") {
+			var rotate = configData['rotate'];
+			dict['KEY_ROTATE'] = configData['rotate'] ? 1 : 0;
+		}
 		
 		// Send to watchapp
 		Pebble.sendAppMessage(dict, function() {
