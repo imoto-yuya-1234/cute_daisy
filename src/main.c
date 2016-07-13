@@ -25,6 +25,9 @@ static void window_load(Window *window) {
 	bitmap_layer_set_bitmap(s_daisy_layer, s_daisy_bitmap);
 	layer_add_child(g_window_layer, bitmap_layer_get_layer(s_daisy_layer));
 	
+	init_status();
+	valid_rot();
+	
 	init_ornament();
 	display_ticks();
 	
@@ -39,6 +42,7 @@ static void window_unload(Window *window) {
 	bitmap_layer_destroy(s_daisy_layer);
   gbitmap_destroy(s_daisy_bitmap);
 	//deinit_day();
+	deinit_status();
 	deinit_time();
 	deinit_ornament();
 }
